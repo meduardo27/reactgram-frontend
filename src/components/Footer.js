@@ -1,7 +1,11 @@
 import styles from "./Footer.css";
 
 const Footer = () => {
-  return <div>Footer</div>;
+  return (
+    <footer id="footer">
+      <p>ReactGram &copy; 2022 </p>
+    </footer>
+  );
 };
 
 export default Footer;
