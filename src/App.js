@@ -1,9 +1,10 @@
 import "./App.css";
-//Router
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Hooks
 import { useAuth } from "./hooks/useAuth";
+
+//Router
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 //Components
 import Navbar from "./components/Navbar";
@@ -14,12 +15,15 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import EditProfile from "./pages/EditProfile/EditProfile";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   const { auth, loading } = useAuth();
+
   if (loading) {
     return <p>Carregando...</p>;
   }
+  
   return (
     <div className="App">
       <BrowserRouter>
@@ -33,6 +37,10 @@ function App() {
             <Route
               path="/profile"
               element={auth ? <EditProfile /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/users/:id"
+              element={auth ? <Profile /> : <Navigate to="/login" />}
             />
             <Route
               path="/login"

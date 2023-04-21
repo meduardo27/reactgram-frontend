@@ -7,12 +7,12 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // Redux
-import { profile, resetMessage, updateProfile } from "../../slices/userSlice";
+import { profile, updateProfile, resetMessage } from "../../slices/userSlice";
 
 // Components
 import Message from "../../components/Message";
 
-const EditProfile = () => {
+const Profile = () => {
   const dispatch = useDispatch();
 
   const { user, message, error, loading } = useSelector((state) => state.user);
@@ -20,7 +20,7 @@ const EditProfile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [profileImage, setImageProfile] = useState("");
+  const [profileImage, setProfileImage] = useState("");
   const [bio, setBio] = useState("");
   const [previewImage, setPreviewImage] = useState("");
 
@@ -38,8 +38,6 @@ const EditProfile = () => {
     }
   }, [user]);
 
-  console.log(user);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -47,6 +45,7 @@ const EditProfile = () => {
     const userData = {
       name,
     };
+
     if (profileImage) {
       userData.profileImage = profileImage;
     }
@@ -55,17 +54,16 @@ const EditProfile = () => {
       userData.bio = bio;
     }
 
-    if (profileImage) {
+    if (password) {
       userData.password = password;
     }
 
     // Build form data
     const formData = new FormData();
-    const userFormData = Object.keys(userData).forEach((key) =>
-      formData.append(key, userData[key])
-    );
-    formData.append("user", userFormData);
-    await dispatch(updateProfile(userFormData));
+
+    Object.keys(userData).forEach((key) => formData.append(key, userData[key]));
+
+    dispatch(updateProfile(formData));
 
     setTimeout(() => {
       dispatch(resetMessage());
@@ -79,7 +77,7 @@ const EditProfile = () => {
     setPreviewImage(image);
 
     // update image state
-    setImageProfile(image);
+    setProfileImage(image);
   };
   return (
     <div id="edit-profile">
@@ -105,7 +103,7 @@ const EditProfile = () => {
           onChange={(e) => setName(e.target.value)}
           value={name || ""}
         />
-        <input type="email" placeholder="E-mail" disabled value={email} />
+        <input type="email" placeholder="E-mail" disabled value={email || ""} />
         <label>
           <span>Imagem do Perfil:</span>
           <input type="file" onChange={handleFile} />
@@ -131,10 +129,10 @@ const EditProfile = () => {
         {!loading && <input type="submit" value="Atualizar" />}
         {loading && <input type="submit" value="Aguarde..." disabled />}
         {error && <Message msg={error} type="error" />}
-        {message && <Message msg={message} type="sucess" />}
+        {message && <Message msg={message} type="success" />}
       </form>
     </div>
   );
 };
 
-export default EditProfile;
+export default Profile;
