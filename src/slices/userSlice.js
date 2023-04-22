@@ -27,7 +27,6 @@ export const updateProfile = createAsyncThunk(
   async (user, thunkAPI) => {
     const token = thunkAPI.getState().auth.user.token;
 
-    console.log("Foto aqui? + " + user);
     const data = await userService.updateProfile(user, token);
 
     // Check for errors

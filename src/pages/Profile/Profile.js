@@ -51,7 +51,6 @@ const Profile = () => {
   useEffect(() => {
     dispatch(getUserDetails(id));
     dispatch(getUserPhotos(id));
-    console.log("cade " + photos);
   }, [dispatch, id]);
 
   // Publish a new photo
